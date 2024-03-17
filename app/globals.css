@@ -14,6 +14,13 @@ a {
   text-decoration: none;
 }
 
-/*
-Button, Input, etc.
-*/
+/* button {
+  background-color: inherit;
+  border: none;
+  font-size: inherit;
+}
+
+body {
+  height: 100svh;
+  overflow: hidden;
+} */
