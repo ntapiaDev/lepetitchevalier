@@ -1,18 +1,17 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { login } from "../actions/login";
 import { signup } from "../actions/signup";
 import { registerSchema } from "../schemas/register";
 import styles from "../auth.module.css";
 
 export default function Signup() {
   const [isPending, startTransition] = useTransition();
-  const router = useRouter();
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(registerSchema),
@@ -29,8 +28,10 @@ export default function Signup() {
         .then(data => {
           if (data.error) toast.error(data.error);
           if (data.success) {
-            toast.success(data.success);
-            router.push("/serveur");
+            login(values)
+              .then(data => {
+                if (data?.error) toast.error(data.error);
+              });
           }
         });
     });
