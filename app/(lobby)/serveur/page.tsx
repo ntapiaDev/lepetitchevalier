@@ -1,5 +1,5 @@
 import { auth, signOut } from "@/auth";
-import styles from "./page.module.css";
+import styles from "../lobby.module.css";
 
 export default async function Server() {
   const session = await auth();
