@@ -15,6 +15,11 @@ export const signup = async (values: z.infer<typeof registerSchema>) => {
   if (existingUser) return { error: "Cet email est déjà enregistré!" };
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  await addUser(name, email, hashedPassword);
-  return { success: "Enregistrement réussi!" };
+
+  try {
+    await addUser(name, email, hashedPassword);
+    return { success: "Enregistrement réussi!" };
+  } catch {
+    return { error: "Un problème est survenu!" };
+  }
 }

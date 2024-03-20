@@ -3,14 +3,11 @@
 import { AuthError } from "next-auth";
 import { z } from "zod";
 import { signIn } from "@/auth";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { LOBBY_URL } from "@/routes";
 import { getUserByEmail } from "../user.repository";
 import { loginSchema } from "../schemas/login";
 
-export const login = async (
-  values: z.infer<typeof loginSchema>,
-  callbackUrl?: string | null
-) => {
+export const login = async (values: z.infer<typeof loginSchema>, callbackUrl?: string | null) => {
   const validatedFields = loginSchema.safeParse(values);
   if (!validatedFields.success) return { error: "Champs invalides!" };
 
@@ -23,7 +20,7 @@ export const login = async (
     await signIn("credentials", {
       email,
       password,
-      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT
+      redirectTo: callbackUrl || LOBBY_URL
     });
   } catch (error) {
     if (error instanceof AuthError) {

@@ -15,21 +15,33 @@ export const addUser = async (
 }
 
 export const getUserByEmail = async (email: string) => {
-  try {
-    const user = await db.user.findUnique({ where: { email } });
-    return user;
-  } catch {
-    return null;
-  }
+  const user = await db.user.findUnique({
+    where: { email },
+    include: {
+      kingdoms: {
+        select: {
+          kingdomId: true,
+          joinedAt: true
+        }
+      }
+    }
+  });
+  return user;
 }
 
 export const getUserById = async (id: string) => {
-  try {
-    const user = await db.user.findUnique({ where: { id } });
-    return user;
-  } catch {
-    return null;
-  }
+  const user = await db.user.findUnique({
+    where: { id },
+    include: {
+      kingdoms: {
+        select: {
+          kingdomId: true,
+          joinedAt: true
+        }
+      }
+    }
+  });
+  return user;
 }
 
 export const verifyEmail = async (id: string) => {

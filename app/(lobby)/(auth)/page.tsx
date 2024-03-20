@@ -2,7 +2,7 @@ import Link from "next/link";
 import Login from "@/modules/auth/components/login";
 import styles from "../lobby.module.css";
 
-export default function Home() {
+export default function Accueil() {
   return (
     <section>
       <h2>Connexion</h2>

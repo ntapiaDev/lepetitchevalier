@@ -1,21 +1,23 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { UserRole } from "@prisma/client";
+import type { UserRole } from "@prisma/client";
 import authConfig from "@/auth.config";
 import { db } from "@/lib/db";
 import { getUserById, verifyEmail } from "@/modules/auth/user.repository";
 
+interface ExtendedUser {
+  role: UserRole;
+  kingdoms: {
+    kingdomId: string,
+    joinedAt: Date
+  }[];
+}
 declare module "next-auth" {
-  interface User {
-    role: UserRole;
-  }
-}
-
+  interface User extends ExtendedUser { }
+};
 declare module "@auth/core/jwt" {
-  interface JWT {
-    role: UserRole;
-  }
-}
+  interface JWT extends ExtendedUser { }
+};
 
 export const {
   handlers: { GET, POST },
@@ -34,8 +36,11 @@ export const {
   },
   callbacks: {
     async session({ token, session }) {
-      if (token.sub && session.user) session.user.id = token.sub;
-      if (token.role && session.user) session.user.role = token.role;
+      if (token.sub) session.user.id = token.sub;
+
+      session.user.role = token.role;
+      session.user.kingdoms = token.kingdoms;
+
       return session;
     },
     async jwt({ token }) {
@@ -45,6 +50,8 @@ export const {
       if (!user) return token;
 
       token.role = user.role;
+      token.kingdoms = user.kingdoms;
+
       return token;
     }
   },

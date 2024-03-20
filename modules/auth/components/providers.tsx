@@ -1,19 +1,23 @@
 "use client";
 
-import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { signIn } from "next-auth/react";
+import { LOBBY_URL } from "@/routes";
+import styles from "../auth.module.css";
 
 export default function Providers() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
-  const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
-    ? "Cet email est déjà utilisé avec un autre provider!"
-    : "";
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Cet email est déjà utilisé avec un autre provider!"
+      : searchParams.get("error") === "OAuthCallbackError"
+        ? "Une erreur s'est produite, merci de réessayer."
+        : "";
 
   const onClick = (provider: "google" | "github") => {
     signIn(provider, {
-      callbackUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT
+      callbackUrl: callbackUrl || LOBBY_URL
     });
   }
 

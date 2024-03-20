@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import NextAuth from "next-auth";
 import authConfig from "@/auth.config";
 import {
-  authRoutes,
   apiAuthPrefix,
-  DEFAULT_LOGIN_REDIRECT
+  authRoutes,
+  LOBBY_URL
 } from "@/routes";
 
 const { auth } = NextAuth(authConfig);
@@ -18,7 +18,7 @@ export default auth((req) => {
 
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
   if (isAuthRoute) {
-    if (isLoggedIn) return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+    if (isLoggedIn) return NextResponse.redirect(new URL(LOBBY_URL, nextUrl));
     return NextResponse.next();
   }
 
