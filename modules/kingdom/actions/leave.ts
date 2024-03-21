@@ -1,7 +1,7 @@
 "use server";
 
 import { currentUser } from "@/modules/auth/user.utils";
-import { leaveKingdom } from "../kingdom.repository";
+import { leaveKingdomThenRemoveCamp } from "../kingdom.repository";
 
 export const leave = async (kingdomId: string) => {
   const user = await currentUser();
@@ -10,7 +10,7 @@ export const leave = async (kingdomId: string) => {
   if (!user.kingdoms.find(k => k.kingdomId === kingdomId)) return { error: "Vous n'êtes pas sur ce royaume actuellement!" };
 
   try {
-    await leaveKingdom(user.id, kingdomId);
+    await leaveKingdomThenRemoveCamp(user.id, kingdomId);
     return { success: "Vous avez bien quitté ce royaume!" };
   } catch {
     return { error: "Un problème est survenu!" };

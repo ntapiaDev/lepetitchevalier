@@ -1,7 +1,7 @@
 "use server";
 
 import { currentUser } from "@/modules/auth/user.utils";
-import { joinKingdom } from "../kingdom.repository";
+import { joinKingdomThenAddCamp } from "../kingdom.repository";
 
 export const join = async (kingdomId: string) => {
   const user = await currentUser();
@@ -10,7 +10,7 @@ export const join = async (kingdomId: string) => {
   if (user.kingdoms.find(k => k.kingdomId === kingdomId)) return { error: "Vous êtes déjà sur ce royaume!" };
 
   try {
-    await joinKingdom(user.id, kingdomId);
+    await joinKingdomThenAddCamp(user.id, kingdomId);
     return { success: "Vous avez bien rejoint ce royaume!" };
   } catch {
     return { error: "Un problème est survenu!" };

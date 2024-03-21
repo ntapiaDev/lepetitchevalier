@@ -31,6 +31,7 @@ model User {
   role          UserRole          @default(USER)
   accounts      Account[]
   kingdoms      UsersOnKingdoms[]
+  camps         Camp[]
 }
 
 model Account {
@@ -58,6 +59,7 @@ model Kingdom {
   speed     Int               @default(1)
   createdAt DateTime
   users     UsersOnKingdoms[]
+  camps     Camp[]
 }
 
 model UsersOnKingdoms {
@@ -68,4 +70,23 @@ model UsersOnKingdoms {
   joinedAt  DateTime
 
   @@id([userId, kingdomId])
+}
+
+model Camp {
+  id           String   @id @default(cuid())
+  userId       String
+  kingdomId    String
+  wood         Float    @default(500)
+  woodPerHour  Int      @default(90)
+  stone        Float    @default(500)
+  stonePerHour Int      @default(45)
+  food         Float    @default(0)
+  foodPerHour  Int      @default(0)
+  workers      Float    @default(0)
+  lastUpdate   DateTime
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kingdom Kingdom @relation(fields: [kingdomId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, kingdomId])
 }

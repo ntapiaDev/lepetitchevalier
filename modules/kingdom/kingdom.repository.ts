@@ -59,25 +59,36 @@ export const getKingdoms = async () => {
   return kingdoms;
 }
 
-// Table usersOnKingdoms
-
-export const joinKingdom = async (userId: string, kingdomId: string) => {
-  await db.usersOnKingdoms.create({
-    data: {
-      userId,
-      kingdomId,
-      joinedAt: new Date()
-    }
-  });
+export const joinKingdomThenAddCamp = async (userId: string, kingdomId: string) => {
+  await db.$transaction([
+    db.usersOnKingdoms.create({
+      data: {
+        userId,
+        kingdomId,
+        joinedAt: new Date()
+      }
+    }),
+    db.camp.create({
+      data: {
+        userId,
+        kingdomId,
+        lastUpdate: new Date()
+      }
+    })
+  ]);
 }
 
-export const leaveKingdom = async (userId: string, kingdomId: string) => {
-  await db.usersOnKingdoms.delete({
-    where: {
-      userId_kingdomId: {
-        userId,
-        kingdomId
+export const leaveKingdomThenRemoveCamp = async (userId: string, kingdomId: string) => {
+  await db.$transaction([
+    db.usersOnKingdoms.delete({
+      where: {
+        userId_kingdomId: { userId, kingdomId }
       }
-    }
-  });
+    }),
+    db.camp.delete({
+      where: {
+        userId_kingdomId: { userId, kingdomId }
+      }
+    })
+  ]);
 }

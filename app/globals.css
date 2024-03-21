@@ -14,13 +14,25 @@ a {
   text-decoration: none;
 }
 
-/* button {
-  background-color: inherit;
+button {
+  /* background-color: inherit;
   border: none;
-  font-size: inherit;
+  font-size: inherit; */
+  cursor: pointer;
 }
 
 body {
   height: 100svh;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
-} */
+}
+
+.main {
+  display: flex;
+  flex-grow: 1;
+}
+
+main {
+  flex-grow: 1;
+}
