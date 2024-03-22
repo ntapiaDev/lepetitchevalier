@@ -16,7 +16,7 @@ export const getKingdomById = async (id: string) => {
     include: {
       users: {
         select: {
-          userId: true,
+          userName: true,
           joinedAt: true
         }
       }
@@ -36,7 +36,7 @@ export const getKingdomByName = async (name: string) => {
     include: {
       users: {
         select: {
-          userId: true,
+          userName: true,
           joinedAt: true
         }
       }
@@ -50,7 +50,7 @@ export const getKingdoms = async () => {
     include: {
       users: {
         select: {
-          userId: true,
+          userName: true,
           joinedAt: true
         }
       }
@@ -59,35 +59,35 @@ export const getKingdoms = async () => {
   return kingdoms;
 }
 
-export const joinKingdomThenAddCamp = async (userId: string, kingdomId: string) => {
+export const joinKingdomThenAddCamp = async (userName: string, kingdomName: string) => {
   await db.$transaction([
     db.usersOnKingdoms.create({
       data: {
-        userId,
-        kingdomId,
+        userName,
+        kingdomName,
         joinedAt: new Date()
       }
     }),
     db.camp.create({
       data: {
-        userId,
-        kingdomId,
+        userName,
+        kingdomName,
         lastUpdate: new Date()
       }
     })
   ]);
 }
 
-export const leaveKingdomThenRemoveCamp = async (userId: string, kingdomId: string) => {
+export const leaveKingdomThenRemoveCamp = async (userName: string, kingdomName: string) => {
   await db.$transaction([
     db.usersOnKingdoms.delete({
       where: {
-        userId_kingdomId: { userId, kingdomId }
+        userName_kingdomName: { userName, kingdomName }
       }
     }),
     db.camp.delete({
       where: {
-        userId_kingdomId: { userId, kingdomId }
+        userName_kingdomName: { userName, kingdomName }
       }
     })
   ]);

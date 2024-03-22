@@ -1,22 +1,19 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import type { UserRole } from "@prisma/client";
+import type { Camp, UserRole } from "@prisma/client";
 import authConfig from "@/auth.config";
 import { db } from "@/lib/db";
 import { getUserById, verifyEmail } from "@/modules/auth/user.repository";
 
-interface ExtendedUser {
-  role: UserRole;
-  kingdoms: {
-    kingdomId: string,
-    joinedAt: Date
-  }[];
-}
 declare module "next-auth" {
-  interface User extends ExtendedUser { }
-};
-declare module "@auth/core/jwt" {
-  interface JWT extends ExtendedUser { }
+  interface User {
+    role: UserRole;
+    kingdoms: {
+      kingdomName: string,
+      joinedAt: Date
+    }[];
+    camps: Camp[]
+  }
 };
 
 export const {
@@ -36,23 +33,17 @@ export const {
   },
   callbacks: {
     async session({ token, session }) {
-      if (token.sub) session.user.id = token.sub;
-
-      session.user.role = token.role;
-      session.user.kingdoms = token.kingdoms;
-
-      return session;
-    },
-    async jwt({ token }) {
-      if (!token.sub) return token;
+      if (!token.sub) return session;
+      session.user.id = token.sub;
 
       const user = await getUserById(token.sub);
-      if (!user) return token;
+      if (!user) return session;
 
-      token.role = user.role;
-      token.kingdoms = user.kingdoms;
+      session.user.role = user.role;
+      session.user.kingdoms = user.kingdoms;
+      session.user.camps = user.camps;
 
-      return token;
+      return session;
     }
   },
   adapter: PrismaAdapter(db),

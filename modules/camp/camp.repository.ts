@@ -1,11 +1,11 @@
 import { db } from "@/lib/db";
 
-export const getCampByUserAndKingdomId = async (userId: string, kingdomId: string) => {
+export const getCampByUserAndKingdomName = async (userName: string, kingdomName: string) => {
   const camp = await db.camp.findUnique({
     where: {
-      userId_kingdomId: {
-        userId,
-        kingdomId
+      userName_kingdomName: {
+        userName,
+        kingdomName
       }
     }
   });

@@ -3,14 +3,14 @@
 import { currentUser } from "@/modules/auth/user.utils";
 import { leaveKingdomThenRemoveCamp } from "../kingdom.repository";
 
-export const leave = async (kingdomId: string) => {
+export const leave = async (kingdomName: string) => {
   const user = await currentUser();
-  if (!user?.id) return { error: "Vous devez être connecté pour quitter un royaume!" };
+  if (!user?.name) return { error: "Vous devez être connecté pour quitter un royaume!" };
 
-  if (!user.kingdoms.find(k => k.kingdomId === kingdomId)) return { error: "Vous n'êtes pas sur ce royaume actuellement!" };
+  if (!user.kingdoms.find(k => k.kingdomName === kingdomName)) return { error: "Vous n'êtes pas sur ce royaume actuellement!" };
 
   try {
-    await leaveKingdomThenRemoveCamp(user.id, kingdomId);
+    await leaveKingdomThenRemoveCamp(user.name, kingdomName);
     return { success: "Vous avez bien quitté ce royaume!" };
   } catch {
     return { error: "Un problème est survenu!" };

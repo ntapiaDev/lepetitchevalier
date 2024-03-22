@@ -13,7 +13,7 @@ import styles from "../kingdom.module.css";
 
 type KingdomWithUsers = Kingdom & {
   users: {
-    userId: string,
+    userName: string,
     joinedAt: Date
   }[];
 }
@@ -24,9 +24,9 @@ export default function Kingdom({ kingdom }: { kingdom: KingdomWithUsers }) {
   const user = useCurrentUser();
   const { update } = useSession();
 
-  const joinKingdom = (kingdomId: string) => {
+  const joinKingdom = (kingdomName: string) => {
     startTransition(() => {
-      join(kingdomId)
+      join(kingdomName)
         .then(data => {
           if (data.error) toast.error(data.error);
           if (data.success) {
@@ -34,7 +34,7 @@ export default function Kingdom({ kingdom }: { kingdom: KingdomWithUsers }) {
               .then(() => {
                 // TODO: Gestion de l'état, store? useState?
                 kingdom.users.push({
-                  userId: user?.id!,
+                  userName: user?.name!,
                   joinedAt: new Date()
                 });
                 router.push(kingdom.name);
@@ -44,14 +44,14 @@ export default function Kingdom({ kingdom }: { kingdom: KingdomWithUsers }) {
     });
   }
 
-  const leaveKingdom = (kingdomId: string) => {
+  const leaveKingdom = (kingdomName: string) => {
     startTransition(() => {
-      leave(kingdomId)
+      leave(kingdomName)
         .then(data => {
           if (data.error) toast.error(data.error);
           if (data.success) {
             update()
-              .then(() => kingdom.users = kingdom.users.filter(u => u.userId !== user?.id!));
+              .then(() => kingdom.users = kingdom.users.filter(u => u.userName !== user?.name));
           }
         });
     });
@@ -69,10 +69,10 @@ export default function Kingdom({ kingdom }: { kingdom: KingdomWithUsers }) {
       Vitesse : x{kingdom.speed} -
       Joueurs : {kingdom.users.length} -
       Jours : {getElapsedDays(kingdom.createdAt)} -
-      {user?.kingdoms.find(k => k.kingdomId === kingdom.id) && <>
-        <Link href={kingdom.name}>Jouer</Link> <button disabled={isPending} onClick={() => leaveKingdom(kingdom.id)}>Quitter</button>
+      {user?.kingdoms.find(k => k.kingdomName === kingdom.name) && <>
+        <Link href={kingdom.name}>Jouer</Link> <button disabled={isPending} onClick={() => leaveKingdom(kingdom.name)}>Quitter</button>
       </>}
-      {!user?.kingdoms.find(k => k.kingdomId === kingdom.id) && <button disabled={isPending} onClick={() => joinKingdom(kingdom.id)}>Rejoindre</button>}
+      {!user?.kingdoms.find(k => k.kingdomName === kingdom.name) && <button disabled={isPending} onClick={() => joinKingdom(kingdom.name)}>Rejoindre</button>}
     </div>
   );
 }

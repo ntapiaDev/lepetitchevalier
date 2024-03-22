@@ -2,7 +2,7 @@
 
 import bcrypt from "bcryptjs";
 import { z } from "zod";
-import { addUser, getUserByEmail } from "../user.repository";
+import { addUser, getUserByEmail, getUserByName } from "../user.repository";
 import { registerSchema } from "../schemas/register";
 
 export const signup = async (values: z.infer<typeof registerSchema>) => {
@@ -11,8 +11,11 @@ export const signup = async (values: z.infer<typeof registerSchema>) => {
 
   const { name, email, password } = validatedFields.data;
 
-  const existingUser = await getUserByEmail(email);
-  if (existingUser) return { error: "Cet email est déjà enregistré!" };
+  const existingName = await getUserByName(name);
+  if (existingName) return { error: "Ce nom est déjà pris!" };
+
+  const existingEmail = await getUserByEmail(email);
+  if (existingEmail) return { error: "Cet email est déjà enregistré!" };
 
   const hashedPassword = await bcrypt.hash(password, 10);
 

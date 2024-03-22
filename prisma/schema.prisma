@@ -23,7 +23,7 @@ enum UserRole {
 
 model User {
   id            String            @id @default(cuid())
-  name          String?
+  name          String?           @unique
   email         String?           @unique
   emailVerified DateTime?
   image         String?
@@ -63,19 +63,19 @@ model Kingdom {
 }
 
 model UsersOnKingdoms {
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  kingdom   Kingdom  @relation(fields: [kingdomId], references: [id])
-  kingdomId String
-  joinedAt  DateTime
+  user        User     @relation(fields: [userName], references: [name])
+  userName    String
+  kingdom     Kingdom  @relation(fields: [kingdomName], references: [name])
+  kingdomName String
+  joinedAt    DateTime
 
-  @@id([userId, kingdomId])
+  @@id([userName, kingdomName])
 }
 
 model Camp {
   id           String   @id @default(cuid())
-  userId       String
-  kingdomId    String
+  userName     String
+  kingdomName  String
   wood         Float    @default(500)
   woodPerHour  Int      @default(90)
   stone        Float    @default(500)
@@ -85,8 +85,8 @@ model Camp {
   workers      Float    @default(0)
   lastUpdate   DateTime
 
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  kingdom Kingdom @relation(fields: [kingdomId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userName], references: [name], onDelete: Cascade)
+  kingdom Kingdom @relation(fields: [kingdomName], references: [name], onDelete: Cascade)
 
-  @@unique([userId, kingdomId])
+  @@unique([userName, kingdomName])
 }

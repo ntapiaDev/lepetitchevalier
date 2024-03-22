@@ -20,10 +20,11 @@ export const getUserByEmail = async (email: string) => {
     include: {
       kingdoms: {
         select: {
-          kingdomId: true,
+          kingdomName: true,
           joinedAt: true
         }
-      }
+      },
+      camps: true
     }
   });
   return user;
@@ -35,12 +36,18 @@ export const getUserById = async (id: string) => {
     include: {
       kingdoms: {
         select: {
-          kingdomId: true,
+          kingdomName: true,
           joinedAt: true
         }
-      }
+      },
+      camps: true
     }
   });
+  return user;
+}
+
+export const getUserByName = async (name: string) => {
+  const user = await db.user.findUnique({ where: { name } });
   return user;
 }
 
