@@ -1,13 +1,13 @@
 import { db } from "@/lib/db";
 
 export const addUser = async (
-  name: string,
+  username: string,
   email: string,
   password: string
 ) => {
   await db.user.create({
     data: {
-      name,
+      username,
       email,
       password
     }
@@ -46,9 +46,16 @@ export const getUserById = async (id: string) => {
   return user;
 }
 
-export const getUserByName = async (name: string) => {
-  const user = await db.user.findUnique({ where: { name } });
+export const getUserByUsername = async (username: string) => {
+  const user = await db.user.findUnique({ where: { username } });
   return user;
+}
+
+export const updateUsername = async (id: string, username: string) => {
+  await db.user.update({
+    where: { id },
+    data: { username }
+  });
 }
 
 export const verifyEmail = async (id: string) => {

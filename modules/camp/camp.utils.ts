@@ -9,6 +9,6 @@ export const currentCamp = async (kingdomName: string) => {
 }
 
 export const findCurrentCamp = (user: User, kingdomName: string) => {
-  const camp = user.camps.find(c => c.kingdomName.toLowerCase() === kingdomName.toLowerCase());
+  const camp = user.camps.find(c => c.kingdomName === kingdomName);
   return camp;
 }

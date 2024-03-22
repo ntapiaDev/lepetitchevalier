@@ -1,10 +1,10 @@
 import { z } from "zod";
 
 export const registerSchema = z.object({
-  name: z.string()
-    .min(1, { message: "Veuillez entrer votre nom" })
-    .min(3, { message: "Votre nom doit faire au moins 3 caractères" })
-    .max(16, { message: "Votre nom ne doit pas dépasser 16 caractères" }),
+  username: z.string()
+    .min(1, { message: "Veuillez entrer votre pseudonyme" })
+    .min(3, { message: "Votre pseudonyme doit faire au moins 3 caractères" })
+    .max(16, { message: "Votre pseudonyme ne doit pas dépasser 16 caractères" }),
   email: z.string()
     .email({ message: "Cette adresse n'est pas valide" }),
   password: z.string()

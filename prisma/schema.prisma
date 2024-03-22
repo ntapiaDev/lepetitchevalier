@@ -23,7 +23,8 @@ enum UserRole {
 
 model User {
   id            String            @id @default(cuid())
-  name          String?           @unique
+  name          String?
+  username      String?           @unique
   email         String?           @unique
   emailVerified DateTime?
   image         String?
@@ -63,7 +64,7 @@ model Kingdom {
 }
 
 model UsersOnKingdoms {
-  user        User     @relation(fields: [userName], references: [name])
+  user        User     @relation(fields: [userName], references: [username])
   userName    String
   kingdom     Kingdom  @relation(fields: [kingdomName], references: [name])
   kingdomName String
@@ -85,7 +86,7 @@ model Camp {
   workers      Float    @default(0)
   lastUpdate   DateTime
 
-  user    User    @relation(fields: [userName], references: [name], onDelete: Cascade)
+  user    User    @relation(fields: [userName], references: [username], onDelete: Cascade)
   kingdom Kingdom @relation(fields: [kingdomName], references: [name], onDelete: Cascade)
 
   @@unique([userName, kingdomName])

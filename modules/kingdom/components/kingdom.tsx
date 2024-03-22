@@ -34,7 +34,7 @@ export default function Kingdom({ kingdom }: { kingdom: KingdomWithUsers }) {
               .then(() => {
                 // TODO: Gestion de l'état, store? useState?
                 kingdom.users.push({
-                  userName: user?.name!,
+                  userName: user?.username!,
                   joinedAt: new Date()
                 });
                 router.push(kingdom.name);
@@ -51,7 +51,7 @@ export default function Kingdom({ kingdom }: { kingdom: KingdomWithUsers }) {
           if (data.error) toast.error(data.error);
           if (data.success) {
             update()
-              .then(() => kingdom.users = kingdom.users.filter(u => u.userName !== user?.name));
+              .then(() => kingdom.users = kingdom.users.filter(u => u.userName !== user?.username));
           }
         });
     });

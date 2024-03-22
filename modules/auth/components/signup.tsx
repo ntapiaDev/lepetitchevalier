@@ -16,7 +16,7 @@ export default function Signup() {
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      name: "",
+      username: "",
       email: "",
       password: ""
     }
@@ -44,8 +44,8 @@ export default function Signup() {
           type="text"
           placeholder="Gabin"
           disabled={isPending}
-          {...register("name")} />
-        {errors.name && <span>{errors.name.message}</span>}
+          {...register("username")} />
+        {errors.username && <span>{errors.username.message}</span>}
       </label>
       <label>Email :
         <input

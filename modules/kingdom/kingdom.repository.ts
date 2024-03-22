@@ -27,12 +27,7 @@ export const getKingdomById = async (id: string) => {
 
 export const getKingdomByName = async (name: string) => {
   const kingdoms = await db.kingdom.findFirst({
-    where: {
-      name: {
-        equals: name,
-        mode: 'insensitive'
-      }
-    },
+    where: { name },
     include: {
       users: {
         select: {

@@ -7,6 +7,7 @@ import { getUserById, verifyEmail } from "@/modules/auth/user.repository";
 
 declare module "next-auth" {
   interface User {
+    username: string | null,
     role: UserRole;
     kingdoms: {
       kingdomName: string,
@@ -39,6 +40,7 @@ export const {
       const user = await getUserById(token.sub);
       if (!user) return session;
 
+      session.user.username = user.username;
       session.user.role = user.role;
       session.user.kingdoms = user.kingdoms;
       session.user.camps = user.camps;
