@@ -4,15 +4,18 @@ import Footer from "@/components/footer";
 import Header from "@/components/header";
 import Nav from "@/components/nav";
 import { currentCamp } from "@/modules/camp/camp.utils";
+import { updateCamp } from "@/modules/camp/actions/updateCamp";
 
 export default async function GameLayout({ children, params }: { children: React.ReactNode, params: { kingdom: string } }) {
   const camp = await currentCamp(params.kingdom);
-  // TODO: Redirection via le middleware?
   if (!camp) redirect(LOBBY_URL);
+
+  const update = await updateCamp(camp);
+  const updatedCamp = update.success;
 
   return (
     <>
-      <Header />
+      <Header camp={updatedCamp} />
       <div className="main">
         <Nav baseUrl={params.kingdom} />
         {children}

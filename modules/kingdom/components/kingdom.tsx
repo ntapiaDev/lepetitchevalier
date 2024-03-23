@@ -38,6 +38,7 @@ export default function Kingdom({ kingdom }: { kingdom: KingdomWithUsers }) {
                   joinedAt: new Date()
                 });
                 router.push(kingdom.name);
+                router.refresh();
               });
           }
         });
@@ -51,7 +52,10 @@ export default function Kingdom({ kingdom }: { kingdom: KingdomWithUsers }) {
           if (data.error) toast.error(data.error);
           if (data.success) {
             update()
-              .then(() => kingdom.users = kingdom.users.filter(u => u.userName !== user?.username));
+              .then(() => {
+                kingdom.users = kingdom.users.filter(u => u.userName !== user?.username);
+                router.refresh();
+              });
           }
         });
     });
