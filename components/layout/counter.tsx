@@ -1,13 +1,14 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export default function Counter({ start, value, valuePerHour }: { start: number, value: number, valuePerHour: number }) {
+export default function Counter({ start, value, valuePerHour, label }: { start: Date, value: number, valuePerHour: number, label: string }) {
   const [currentValue, setCurrentValue] = useState(value);
 
   useEffect(() => {
     const updateValue = () => {
-      const hoursSinceLastRefresh = (Date.now() - start) / 1000 / 60 / 60;
+      const hoursSinceLastRefresh = (Date.now() - new Date(start).getTime()) / 1000 / 60 / 60;
       const valueProduced = valuePerHour * hoursSinceLastRefresh;
       setCurrentValue(value + valueProduced);
     }
@@ -22,7 +23,8 @@ export default function Counter({ start, value, valuePerHour }: { start: number,
   }, [start, value, valuePerHour]);
 
   return (
-    <div>
+    <div className="counter">
+      <Image className="resource-img" src={`/${label.toLowerCase()}.png`} width={512} height={350} alt={label} />
       {Math.floor(currentValue)}
     </div>
   );

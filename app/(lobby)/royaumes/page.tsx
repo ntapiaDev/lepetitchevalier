@@ -14,11 +14,11 @@ export default async function Royaumes() {
   // await addKingdom("Aragorn");
   // await addKingdom("Boromir");
   // await addKingdom("Celeborn");
-  
+
   return (
     <main>
       <h1>Choisir un royaume</h1>
-      {JSON.stringify(user)}
+      {/* {JSON.stringify(user)} */}
       <Logout />
       {kingdoms.map(kingdom => <Kingdom key={kingdom.id} kingdom={kingdom} />)}
     </main>
