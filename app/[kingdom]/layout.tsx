@@ -18,7 +18,7 @@ export default async function GameLayout({ children, params }: { children: React
     <>
       <Header camp={updatedCamp} />
       <div className="nav-main">
-        <Nav baseUrl={params.kingdom} />
+        <Nav />
         {children}
       </div>
       <Footer />

@@ -1,7 +1,6 @@
-"use client";
-
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import styles from "./layout.module.css";
 
 export default function Counter({ start, value, valuePerHour, label }: { start: Date, value: number, valuePerHour: number, label: string }) {
   const [currentValue, setCurrentValue] = useState(value);
@@ -23,8 +22,8 @@ export default function Counter({ start, value, valuePerHour, label }: { start: 
   }, [start, value, valuePerHour]);
 
   return (
-    <div className="counter">
-      <Image className="resource-img" src={`/${label.toLowerCase()}.png`} width={512} height={350} alt={label} />
+    <div className={styles.counter}>
+      <Image className={styles.resourceImg} src={`/${label.toLowerCase()}.png`} width={512} height={350} alt={label} />
       {Math.floor(currentValue)}
     </div>
   );

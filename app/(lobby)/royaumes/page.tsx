@@ -18,7 +18,6 @@ export default async function Royaumes() {
   return (
     <main>
       <h1>Choisir un royaume</h1>
-      {/* {JSON.stringify(user)} */}
       <Logout />
       {kingdoms.map(kingdom => <Kingdom key={kingdom.id} kingdom={kingdom} />)}
     </main>

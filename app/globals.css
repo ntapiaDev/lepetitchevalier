@@ -7,8 +7,6 @@
   /* --secondary-color:  */
 }
 
-/* RESETS */
-
 * {
   margin: 0;
   padding: 0;
@@ -27,8 +25,6 @@ button {
   cursor: pointer;
 }
 
-/* LAYOUT */
-
 body {
   height: 100svh;
   background-image: url('/body-background.jpg');
@@ -38,106 +34,23 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   overflow: hidden;
 }
 
-header {
-  height: var(--header-height);
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  font-variant-numeric: tabular-nums;
-}
-
-/* header .counter */
-.counter {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25em;
-
-  .resource-img {
-    width: 50px;
-    height: 34px;
-  }
-}
-
 .nav-main {
-  max-height: calc(100svh - (var(--header-height) + var(--footer-height)));
   display: flex;
-  flex-grow: 1;
-
-  nav {
-    background-color: #666;
-
-    li {
-      list-style: none;
-
-      .nav-link {
-        width: calc(150px + var(--mobile-nav));
-        height: var(--mobile-nav);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        transition: background 0.3s ease;
-
-        &:hover {
-          background-color: brown;
-        }
-
-        &.active {
-          background-color: red;
-        }
-
-        @media screen and (max-width: 768px) {
-          width: var(--mobile-nav);
-        }
-
-        .nav-img {
-          width: calc(var(--mobile-nav) - 4px);
-          height: calc(var(--mobile-nav) - 4px);
-          margin: 2px;
-          /* Ombre portée? */
-        }
-
-        span {
-          text-align: center;
-          flex-grow: 1;
-
-          @media screen and (max-width: 768px) {
-            display: none;
-          }
-        }
-      }
-    }
-  }
 }
 
 main {
-  flex-grow: 1;
   background-color: #999;
   overflow-y: auto;
 }
 
-footer {
-  height: var(--footer-height);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-header,
-footer {
-  color: #FFF;
-  background: linear-gradient(to bottom, #333, #666);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-header,
 .nav-main,
-main,
-footer {
+main {
   width: 100%;
   max-width: var(--max-width);
+  max-height: calc(100svh - var(--header-height) - var(--footer-height));
+  flex-grow: 1;
 }

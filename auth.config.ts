@@ -7,6 +7,8 @@ import { getUserByEmail } from "@/modules/auth/user.repository";
 import { loginSchema } from "@/modules/auth/schemas/login";
 
 export default {
+  // DEV MODE:
+  // trustHost: true,
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
