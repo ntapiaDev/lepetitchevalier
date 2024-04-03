@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import Item from "./item";
 import Selected from "./selected";
@@ -21,13 +20,10 @@ export default function Ressources() {
   return (
     <main className={styles.main}>
       <div className={styles.grid}>
-        <div className={styles.infos}>
-          <Image className={styles.image} src="/ressources-main.png" width={1024} height={512} alt="ressources" />
+        <div className={styles.infos} style={{ backgroundImage: `url("/ressources-main.png")` }}>
           <h1 className={styles.title}>Ressources :</h1>
           <Selected isOpen={isOpen} selected={selected} onClick={() => setOpen(false)} />
         </div>
-        {/* TODO: Items font 170*174px et ne sont pas carrés */}
-        {/* TODO: IDEM pour mobile */}
         <Item item="bucheron" level={12} onClick={() => onClick("bucheron")} />
         <Item item="carriere" level={11} onClick={() => onClick("carriere")} />
         <Item item="mine" level={9} onClick={() => onClick("mine")} />
