@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Item from "./item";
-import Selected from "./selected";
-import styles from "./page.module.css";
+import Container from "@/components/shared/grid/container";
+import Item from "@/components/shared/grid/item";
+import Summary from "@/components/shared/summaries/ressources";
 
 export default function Ressources() {
   const [isOpen, setOpen] = useState(false);
@@ -18,21 +18,18 @@ export default function Ressources() {
   }
 
   return (
-    <main className={styles.main}>
-      <div className={styles.grid}>
-        <div className={styles.infos} style={{ backgroundImage: `url("/ressources-main.png")` }}>
-          <h1 className={styles.title}>Ressources :</h1>
-          <Selected isOpen={isOpen} selected={selected} onClick={() => setOpen(false)} />
-        </div>
-        <Item item="bucheron" level={12} onClick={() => onClick("bucheron")} />
-        <Item item="carriere" level={11} onClick={() => onClick("carriere")} />
-        <Item item="mine" level={9} onClick={() => onClick("mine")} />
-        <Item item="ferme" level={10} onClick={() => onClick("ferme")} />
-        <Item item="hangar" level={4} onClick={() => onClick("hangar")} />
-        <Item item="entrepot" level={4} onClick={() => onClick("entrepot")} />
-        <Item item="forge" level={2} onClick={() => onClick("forge")} />
-        <Item item="grenier" level={3} onClick={() => onClick("grenier")} />
-      </div>
+    <main className="in-game">
+      <Container>
+        <Summary isOpen={isOpen} selected={selected} onClick={() => setOpen(false)} />
+        <Item item="bucheron" selected={selected} level={12} direction="left" onClick={() => onClick("bucheron")} />
+        <Item item="carriere" selected={selected} level={11} direction="left" onClick={() => onClick("carriere")} />
+        <Item item="mine" selected={selected} level={9} direction="left" onClick={() => onClick("mine")} />
+        <Item item="ferme" selected={selected} level={10} direction="left" onClick={() => onClick("ferme")} />
+        <Item item="hangar" selected={selected} level={4} direction="right" onClick={() => onClick("hangar")} />
+        <Item item="entrepot" selected={selected} level={4} direction="right" onClick={() => onClick("entrepot")} />
+        <Item item="forge" selected={selected} level={2} direction="right" onClick={() => onClick("forge")} />
+        <Item item="grenier" selected={selected} level={3} direction="right" onClick={() => onClick("grenier")} />
+      </Container>
     </main>
   );
 }
